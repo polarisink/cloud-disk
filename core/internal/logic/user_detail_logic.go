@@ -26,7 +26,7 @@ func NewUserDetailLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserDe
 
 func (l *UserDetailLogic) UserDetail(req *types.UserDetailRequest) (resp *types.UserDetailReply, err error) {
 	// todo: add your logic here and delete this line
-	//从数据库查询当前用户
+	// 从数据库查询当前用户
 	user:=new(models.UserBasic)
 	has, err := models.Engine.Where("identity = ? ", req.Identity).Get(user)
 	if err!=nil {
@@ -35,6 +35,7 @@ func (l *UserDetailLogic) UserDetail(req *types.UserDetailRequest) (resp *types.
 	if !has{
 		return nil,errors.New("用户不存在")
 	}
+	resp = new(types.UserDetailReply)
 	resp.Email = user.Email
 	resp.Name = user.Name
 	return
