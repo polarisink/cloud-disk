@@ -1,12 +1,13 @@
 package main
 
 import (
+	"cloud-disk/core/internal/config"
+	"cloud-disk/core/internal/handler"
+	"cloud-disk/core/internal/svc"
 	"flag"
 	"fmt"
 
-	"core/internal/config"
-	"core/internal/handler"
-	"core/internal/svc"
+
 
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/rest"

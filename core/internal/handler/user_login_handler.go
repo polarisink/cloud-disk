@@ -1,11 +1,11 @@
 package handler
 
 import (
+	"cloud-disk/core/internal/logic"
+	"cloud-disk/core/internal/svc"
+	"cloud-disk/core/internal/types"
 	"net/http"
 
-	"core/internal/logic"
-	"core/internal/svc"
-	"core/internal/types"
 	"github.com/zeromicro/go-zero/rest/httpx"
 )
 

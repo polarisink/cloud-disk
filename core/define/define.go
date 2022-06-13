@@ -1,6 +1,12 @@
 package define
 
-import "github.com/golang-jwt/jwt/v4"
+
+import (
+	"github.com/golang-jwt/jwt/v4"
+	_ "github.com/joho/godotenv/autoload"
+	"os"
+)
+//匿名导入并加载
 
 type UserClaim struct {
 	Id       int
@@ -10,3 +16,6 @@ type UserClaim struct {
 }
 
 var JwtKey = "cloud-disk-key"
+
+// MailPassword 获取环境变量中的密码
+var MailPassword = os.Getenv("MailPassword")

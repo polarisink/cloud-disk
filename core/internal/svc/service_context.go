@@ -1,7 +1,7 @@
 package svc
 
 import (
-	"core/internal/config"
+	"cloud-disk/core/internal/config"
 )
 
 type ServiceContext struct {
