@@ -29,7 +29,7 @@ func (l *UserLoginLogic) UserLogin(req *types.LoginRequest) (resp *types.LoginRe
 	// todo: add your logic here and delete this line
 	//从数据库查询当前用户
 	user:=new(models.UserBasic)
-	has, err := models.Engine.Where("name = ? AND password = ?", req.Name, req.Password).Get(user)
+	has, err := l.svcCtx.Engine.Where("name = ? AND password = ?", req.Name, req.Password).Get(user)
 	if err!=nil {
 		return nil,err
 	}

@@ -1,3 +1,10 @@
 Name: core-api
 Host: 0.0.0.0
 Port: 8888
+
+Redis:
+  Addr: 1.13.169.163:6379
+  Password: ""
+
+Mysql:
+  DataSource: ""

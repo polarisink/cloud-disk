@@ -29,7 +29,7 @@ func (l *UserDetailLogic) UserDetail(req *types.UserDetailRequest) (resp *types.
 	// todo: add your logic here and delete this line
 	// 从数据库查询当前用户
 	user:=new(models.UserBasic)
-	has, err := models.Engine.Where("identity = ? ", req.Identity).Get(user)
+	has, err := l.svcCtx.Engine.Where("identity = ? ", req.Identity).Get(user)
 	if err!=nil {
 		return nil,err
 	}

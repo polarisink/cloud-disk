@@ -24,7 +24,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 			{
 				Method:  http.MethodPost,
-				Path:    "/mail/code/send",
+				Path:    "/mail/code/send/register",
 				Handler: MailCodeSendRegisterHandler(serverCtx),
 			},
 			{

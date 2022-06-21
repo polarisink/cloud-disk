@@ -2,17 +2,18 @@ package helper
 
 import (
 	"cloud-disk/core/define"
-	"crypto/md5"
 	"crypto/tls"
-	"fmt"
+	"errors"
+	"github.com/aliyun/aliyun-oss-go-sdk/oss"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/jordan-wright/email"
+	"github.com/satori/go.uuid"
+	"math/rand"
 	"net/smtp"
+	"os"
+	"path"
+	"time"
 )
-
-func Md5(s string) string {
-	return fmt.Sprintf("%x", md5.Sum([]byte(s)))
-}
 
 func GenerateToken(id int, identity, name string) (string, error) {
 	//id
@@ -44,4 +45,44 @@ func MailCodeSend(mail, code string) error {
 		return err
 	}
 	return nil
+}
+
+func RandCode() string {
+	s := "1234567890"
+	code := ""
+	for i := 0; i < define.CodeLength; i++ {
+		code += string(s[rand.Intn(len(s))])
+	}
+	return code
+}
+
+func UUID() string {
+	return uuid.NewV4().String()
+}
+
+// GetOssBucket todo use like mysql client
+func GetOssBucket() (*oss.Bucket, error) {
+	client, err := oss.New(define.Endpoint, define.AccessKeyId, define.AccessKeySecret)
+	if err != nil {
+		return nil, errors.New("oss Client Init Error")
+	}
+	bucket, err := client.Bucket(define.Bucket)
+	if err != nil {
+		return nil, errors.New("oss Bucket Init Error")
+	}
+	return bucket, nil
+}
+
+func OssUpload(r *os.File) (string, error) {
+	key := "cloud-disk" + "/" + time.Now().Format("2006-01-02") + "/" + path.Base(r.Name())
+	bucket, err := GetOssBucket()
+	if err != nil {
+		return "", errors.New("get oss bucket error")
+	}
+	err2 := bucket.PutObject(key, r)
+	if err2 != nil {
+		return "", err2
+	}
+	//拼接地址
+	return define.OssPrefix + key, nil
 }
