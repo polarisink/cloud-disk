@@ -2,7 +2,6 @@ package models
 
 import (
 	"cloud-disk/core/internal/config"
-	"github.com/aliyun/aliyun-oss-go-sdk/oss"
 	"github.com/go-redis/redis/v8"
 	_ "github.com/go-sql-driver/mysql"
 	"log"
@@ -27,7 +26,7 @@ func InitRedis(c config.Config) *redis.Client {
 }
 
 // InitOssBucket 初始化OssClient
-func InitOssBucket(o config.Config) *oss.Bucket {
+/*func InitOssBucket(o config.Config) *oss.Bucket {
 	client, err := oss.New(o.Oss.Endpoint, o.Oss.AccessKeyId, o.Oss.AccessKeySecret)
 	if err != nil {
 		log.Printf("Oss Client Init Error: %v", err)
@@ -37,4 +36,4 @@ func InitOssBucket(o config.Config) *oss.Bucket {
 		log.Printf("Oss Bucket Init Error: %v", err)
 	}
 	return bucket
-}
+}*/

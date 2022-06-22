@@ -1,6 +1,7 @@
 package logic
 
 import (
+	"cloud-disk/core/models"
 	"context"
 
 	"cloud-disk/core/internal/svc"
@@ -25,6 +26,19 @@ func NewFileUploadLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FileUp
 
 func (l *FileUploadLogic) FileUpload(req *types.FileUploadRequest) (resp *types.FileUploadReply, err error) {
 	// todo: add your logic here and delete this line
-
+	rp := &models.RepositoryPool{
+		Identity: req.Hash,
+		Hash:     req.Hash,
+		Name:     req.Name,
+		Ext:      req.Ext,
+		Size:     req.Size,
+		Path:     req.Path,
+	}
+	_, err = l.svcCtx.Engine.Insert(rp)
+	if err != nil {
+		return nil, err
+	}
+	resp = new(types.FileUploadReply)
+	resp.Identity = rp.Identity
 	return
 }

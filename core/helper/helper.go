@@ -8,6 +8,7 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/jordan-wright/email"
 	"github.com/satori/go.uuid"
+	"io"
 	"math/rand"
 	"net/smtp"
 	"os"
@@ -73,6 +74,7 @@ func GetOssBucket() (*oss.Bucket, error) {
 	return bucket, nil
 }
 
+
 func OssUpload(r *os.File) (string, error) {
 	key := "cloud-disk" + "/" + time.Now().Format("2006-01-02") + "/" + path.Base(r.Name())
 	bucket, err := GetOssBucket()
@@ -85,4 +87,23 @@ func OssUpload(r *os.File) (string, error) {
 	}
 	//拼接地址
 	return define.OssPrefix + key, nil
+}
+
+func Upload(objectKey string, r io.Reader) (string,error){
+	bucket, err := GetOssBucket()
+	if err != nil {
+		return "", errors.New("get oss bucket error")
+	}
+	err2 := bucket.PutObject(objectKey, r)
+	if err2 != nil {
+		return "", err2
+	}
+	//拼接地址
+	return define.OssPrefix + objectKey, nil
+}
+
+func BasicUpload(r io.Reader) (string,error){
+	//拼接地址
+	key := "cloud-disk" + "/" + time.Now().Format("2006-01-02") + "/" + UUID()
+	return Upload(key,r)
 }

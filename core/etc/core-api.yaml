@@ -4,7 +4,14 @@ Port: 8888
 
 Redis:
   Addr: 1.13.169.163:6379
-  Password: ""
+  Password: mvpredis
 
 Mysql:
-  DataSource: ""
+  DataSource: root:vgy87dgy16rhd61fAGHbcgA@tcp(1.13.169.163:3306)/cloud-disk?charset=utf8mb4&parseTime=True&loc=Local
+
+Oss:
+  Endpoint: oss-cn-hangzhou.aliyuncs.com
+  AccessKeyId:
+  AccessKeySecret:
+  Bucket: mvpwfb
+
