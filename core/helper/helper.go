@@ -3,8 +3,10 @@ package helper
 import (
 	"bytes"
 	"cloud-disk/core/define"
+	"crypto/md5"
 	"crypto/tls"
 	"errors"
+	"fmt"
 	"github.com/aliyun/aliyun-oss-go-sdk/oss"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/jordan-wright/email"
@@ -17,22 +19,22 @@ import (
 	"time"
 )
 
-func GenerateToken(id int, identity, name string) (string, error) {
-	//id
-	//identity
-	//name
-	uc := define.UserClaim{
-		Id:       id,
-		Identity: identity,
-		Name:     name,
-	}
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, uc)
-	ttoken, err := token.SignedString([]byte(define.JwtKey))
-	if err != nil {
-		return "", err
-	}
-	return ttoken, nil
-}
+//func GenerateToken(id int, identity, name string) (string, error) {
+//	//id
+//	//identity
+//	//name
+//	uc := define.UserClaim{
+//		Id:       id,
+//		Identity: identity,
+//		Name:     name,
+//	}
+//	token := jwt.NewWithClaims(jwt.SigningMethodHS256, uc)
+//	ttoken, err := token.SignedString([]byte(define.JwtKey))
+//	if err != nil {
+//		return "", err
+//	}
+//	return ttoken, nil
+//}
 
 // MailCodeSend 邮箱验证码发送
 func MailCodeSend(mail, code string) error {
@@ -119,4 +121,42 @@ func UploadFile(file multipart.File, fileHeader *multipart.FileHeader) (string, 
 
 func GetFileKey(name string) string {
 	return "cloud-disk" + "/" + time.Now().Format("2006-01-02") + "/" + name
+}
+
+// AnalyzeToken
+// Token 解析
+func AnalyzeToken(token string) (*define.UserClaim, error) {
+	uc := new(define.UserClaim)
+	claims, err := jwt.ParseWithClaims(token, uc, func(token *jwt.Token) (interface{}, error) {
+		return []byte(define.JwtKey), nil
+	})
+	if err != nil {
+		return nil, err
+	}
+	if !claims.Valid {
+		return uc, errors.New("token is invalid")
+	}
+	return uc, err
+}
+
+func GenerateToken(id int, identity, name string, second int) (string, error) {
+	uc := define.UserClaim{
+		Id:       id,
+		Identity: identity,
+		Name:     name,
+		StandardClaims: jwt.StandardClaims{
+			ExpiresAt: time.Now().Add(time.Second * time.Duration(second)).Unix(),
+		},
+	}
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, uc)
+	tokenString, err := token.SignedString([]byte(define.JwtKey))
+	if err != nil {
+		return "", err
+	}
+	return tokenString, nil
+}
+
+
+func Md5(s string) string {
+	return fmt.Sprintf("%x", md5.Sum([]byte(s)))
 }

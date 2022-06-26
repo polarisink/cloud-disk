@@ -37,71 +37,79 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/share/basic/detail",
 				Handler: ShareBasicDetailHandler(serverCtx),
 			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/file/upload",
-				Handler: FileUploadHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/user/repository/save",
-				Handler: UserRepositorySaveHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodGet,
-				Path:    "/user/file/list",
-				Handler: UserFileListHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/user/file/name/update",
-				Handler: UserFileNameUpdateHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/user/folder/create",
-				Handler: UserFolderCreateHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodDelete,
-				Path:    "/user/file/delete",
-				Handler: UserFileDeleteHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPut,
-				Path:    "/user/file/move",
-				Handler: UserFileMoveHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/share/basic/create",
-				Handler: ShareBasicCreateHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/share/basic/save",
-				Handler: ShareBasicSaveHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/refresh/authorization",
-				Handler: RefreshAuthorizationHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/file/upload/prepare",
-				Handler: FileUploadPrepareHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/file/upload/chunk",
-				Handler: FileUploadChunkHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/file/upload/chunk/complete",
-				Handler: FileUploadChunkCompleteHandler(serverCtx),
-			},
 		},
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.Auth},
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/file/upload",
+					Handler: FileUploadHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/user/repository/save",
+					Handler: UserRepositorySaveHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/user/file/list",
+					Handler: UserFileListHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/user/file/name/update",
+					Handler: UserFileNameUpdateHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/user/folder/create",
+					Handler: UserFolderCreateHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodDelete,
+					Path:    "/user/file/delete",
+					Handler: UserFileDeleteHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/user/file/move",
+					Handler: UserFileMoveHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/share/basic/create",
+					Handler: ShareBasicCreateHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/share/basic/save",
+					Handler: ShareBasicSaveHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/refresh/authorization",
+					Handler: RefreshAuthorizationHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/file/upload/prepare",
+					Handler: FileUploadPrepareHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/file/upload/chunk",
+					Handler: FileUploadChunkHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/file/upload/chunk/complete",
+					Handler: FileUploadChunkCompleteHandler(serverCtx),
+				},
+			}...,
+		),
 	)
 }

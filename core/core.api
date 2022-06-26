@@ -19,6 +19,12 @@ service core-api {
 	@handler ShareBasicDetail
 	get /share/basic/detail(ShareBasicDetailRequest) returns (ShareBasicDetailReply)
 	
+}
+
+@server (
+	middleware: Auth
+)
+service core-api {
 	// 文件上传
 	@handler FileUpload
 	post /file/upload(FileUploadRequest) returns (FileUploadReply)
@@ -72,64 +78,6 @@ service core-api {
 	post /file/upload/chunk/complete(FileUploadChunkCompleteRequest) returns (FileUploadChunkCompleteReply)
 	
 }
-
-//@server (
-//	middleware: Auth
-//)
-//service core-api {
-//	// 文件上传
-//	@handler FileUpload
-//	post /file/upload(FileUploadRequest) returns (FileUploadReply)
-//
-//	// 用户文件的关联存储
-//	@handler UserRepositorySave
-//	post /user/repository/save(UserRepositorySaveRequest) returns (UserRepositorySaveReply)
-//
-//	// 用户文件列表
-//	@handler UserFileList
-//	get /user/file/list(UserFileListRequest) returns (UserFileListReply)
-//
-//	// 用户文件名称修改
-//	@handler UserFileNameUpdate
-//	post /user/file/name/update(UserFileNameUpdateRequest) returns (UserFileNameUpdateReply)
-//
-//	// 用户-文件夹创建
-//	@handler UserFolderCreate
-//	post /user/folder/create(UserFolderCreateRequest) returns (UserFolderCreateReply)
-//
-//	// 用户-文件删除
-//	@handler UserFileDelete
-//	delete /user/file/delete(UserFileDeleteRequest) returns (UserFileDeleteReply)
-//
-//	// 用户-文件移动
-//	@handler UserFileMove
-//	put /user/file/move(UserFileMoveRequest) returns (UserFileMoveReply)
-//
-//	// 创建分享记录
-//	@handler ShareBasicCreate
-//	post /share/basic/create(ShareBasicCreateRequest) returns (ShareBasicCreateReply)
-//
-//	// 资源保存
-//	@handler ShareBasicSave
-//	post /share/basic/save(ShareBasicSaveRequest) returns (ShareBasicSaveReply)
-//
-//	// 刷新Authorization
-//	@handler RefreshAuthorization
-//	post /refresh/authorization(RefreshAuthorizationRequest) returns (RefreshAuthorizationReply)
-//
-//	// 文件上传前基本信息处理
-//	@handler FileUploadPrepare
-//	post /file/upload/prepare(FileUploadPrepareRequest) returns (FileUploadPrepareReply)
-//
-//	// 文件分片上传
-//	@handler FileUploadChunk
-//	post /file/upload/chunk(FileUploadChunkRequest) returns (FileUploadChunkReply)
-//
-//	// 文件分片上传完成
-//	@handler FileUploadChunkComplete
-//	post /file/upload/chunk/complete(FileUploadChunkCompleteRequest) returns (FileUploadChunkCompleteReply)
-//
-//}
 
 type FileUploadChunkCompleteRequest {
 	Md5        string      `json:"md5"`

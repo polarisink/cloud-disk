@@ -20,7 +20,6 @@ func FileUploadHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			httpx.Error(w, err)
 			return
 		}
-
 		// why write logic code here
 		file, fileHeader, err := r.FormFile("file")
 		b := make([]byte, fileHeader.Size)

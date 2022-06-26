@@ -12,7 +12,7 @@ type UserClaim struct {
 	Id       int
 	Identity string
 	Name     string
-	jwt.RegisteredClaims
+	jwt.StandardClaims
 }
 
 var JwtKey = "cloud-disk-key"
@@ -32,5 +32,15 @@ var Bucket = "mvpwfb"
 var Endpoint = "oss-cn-hangzhou.aliyuncs.com"
 var AccessKeyId = os.Getenv("AccessKeyId")
 var AccessKeySecret = os.Getenv("AccessKeySecret")
-
 var OssPrefix = "https://" + Bucket + "." + Endpoint + "/"
+
+// Authorization auth
+var Authorization = "Authorization"
+
+// PageSize 分页的默认参数
+var PageSize = 20
+
+var Datetime = "2006-01-02 15:04:05"
+
+var TokenExpire = 3600
+var RefreshTokenExpire = 7200

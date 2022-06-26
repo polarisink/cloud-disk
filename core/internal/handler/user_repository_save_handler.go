@@ -18,7 +18,7 @@ func UserRepositorySaveHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := logic.NewUserRepositorySaveLogic(r.Context(), svcCtx)
-		resp, err := l.UserRepositorySave(&req)
+		resp, err := l.UserRepositorySave(&req,r.Header.Get("UserIdentity"))
 		if err != nil {
 			httpx.Error(w, err)
 		} else {

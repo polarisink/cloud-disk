@@ -1,7 +1,10 @@
 package logic
 
 import (
+	"cloud-disk/core/helper"
+	"cloud-disk/core/models"
 	"context"
+	"fmt"
 
 	"cloud-disk/core/internal/svc"
 	"cloud-disk/core/internal/types"
@@ -23,8 +26,19 @@ func NewUserRepositorySaveLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 	}
 }
 
-func (l *UserRepositorySaveLogic) UserRepositorySave(req *types.UserRepositorySaveRequest) (resp *types.UserRepositorySaveReply, err error) {
-	// todo: add your logic here and delete this line
-
+func (l *UserRepositorySaveLogic) UserRepositorySave(req *types.UserRepositorySaveRequest,userIdentity string) (resp *types.UserRepositorySaveReply, err error) {
+	ur := &models.UserRepository{
+		Identity:           helper.UUID(),
+		UserIdentity:       userIdentity,
+		ParentId:           req.ParentId,
+		RepositoryIdentity: req.RepositoryIdentity,
+		Ext:                req.Ext,
+		Name:               req.Name,
+	}
+	_, err = l.svcCtx.Engine.Insert(ur)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 	return
 }
