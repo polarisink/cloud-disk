@@ -1,6 +1,7 @@
 package helper
 
 import (
+	"bytes"
 	"cloud-disk/core/define"
 	"crypto/tls"
 	"errors"
@@ -8,8 +9,8 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/jordan-wright/email"
 	"github.com/satori/go.uuid"
-	"io"
 	"math/rand"
+	"mime/multipart"
 	"net/smtp"
 	"os"
 	"path"
@@ -74,8 +75,8 @@ func GetOssBucket() (*oss.Bucket, error) {
 	return bucket, nil
 }
 
-
-func OssUpload(r *os.File) (string, error) {
+// OssLocalFile oss上传本地文件
+func OssLocalFile(r *os.File) (string, error) {
 	key := "cloud-disk" + "/" + time.Now().Format("2006-01-02") + "/" + path.Base(r.Name())
 	bucket, err := GetOssBucket()
 	if err != nil {
@@ -89,12 +90,13 @@ func OssUpload(r *os.File) (string, error) {
 	return define.OssPrefix + key, nil
 }
 
-func Upload(objectKey string, r io.Reader) (string,error){
+// UploadFromByte 上传文件的byte数组
+func UploadFromByte(objectKey string, b []byte) (string, error) {
 	bucket, err := GetOssBucket()
 	if err != nil {
 		return "", errors.New("get oss bucket error")
 	}
-	err2 := bucket.PutObject(objectKey, r)
+	err2 := bucket.PutObject(objectKey, bytes.NewReader(b))
 	if err2 != nil {
 		return "", err2
 	}
@@ -102,8 +104,15 @@ func Upload(objectKey string, r io.Reader) (string,error){
 	return define.OssPrefix + objectKey, nil
 }
 
-func BasicUpload(r io.Reader) (string,error){
+// UploadFile 上传文件,文件命名策略在本地
+func UploadFile(file multipart.File, fileHeader *multipart.FileHeader) (string, error) {
+	fileName := fileHeader.Filename
+	key := "cloud-disk" + "/" + time.Now().Format("2006-01-02") + "/" + fileName
+	b := make([]byte, fileHeader.Size)
+	_, err := file.Read(b)
+	if err != nil {
+		return "", err
+	}
 	//拼接地址
-	key := "cloud-disk" + "/" + time.Now().Format("2006-01-02") + "/" + UUID()
-	return Upload(key,r)
+	return UploadFromByte(key, b)
 }

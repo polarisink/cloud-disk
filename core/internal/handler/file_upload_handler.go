@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"net/http"
 	"path"
+	"time"
 
 	"cloud-disk/core/internal/logic"
 	"cloud-disk/core/internal/svc"
@@ -22,11 +23,8 @@ func FileUploadHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		//todo why ???
+		// why write logic code here
 		file, fileHeader, err := r.FormFile("file")
-		if err != nil {
-			return
-		}
 		b := make([]byte, fileHeader.Size)
 		_, err = file.Read(b)
 		if err != nil {
@@ -39,19 +37,23 @@ func FileUploadHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 		if has {
+			//如果已经存在,就直接返回
 			httpx.OkJson(w, types.FileUploadReply{Identity: rp.Identity})
 			return
 		}
+		fileName := fileHeader.Filename
+		key := "cloud-disk" + "/" + time.Now().Format("2006-01-02") + "/" + fileName
 		//往oss存储文件
-		upload, err := helper.BasicUpload(file)
+		upload, err := helper.UploadFromByte(key, b)
 		if err != nil {
 			return
 		}
-		req.Name = fileHeader.Filename
-		req.Ext = path.Ext(fileHeader.Filename)
+		req.Name = fileName
+		req.Ext = path.Ext(fileName)
+		fmt.Printf(path.Dir(fileName))
 		req.Size = fileHeader.Size
 		req.Path = upload
-
+		req.Hash = hash
 
 		l := logic.NewFileUploadLogic(r.Context(), svcCtx)
 		resp, err := l.FileUpload(&req)

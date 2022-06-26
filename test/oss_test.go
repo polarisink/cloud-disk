@@ -11,7 +11,7 @@ func TestOssUpload(t *testing.T) {
 	if err!=nil {
 		t.Fatal("该文件不存在")
 	}
-	upload, err := helper.OssUpload(file)
+	upload, err := helper.OssLocalFile(file)
 	if err != nil {
 		return
 	}
