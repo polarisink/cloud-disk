@@ -2,17 +2,15 @@ package handler
 
 import (
 	"cloud-disk/core/helper"
-	"cloud-disk/core/models"
-	"crypto/md5"
-	"fmt"
-	"net/http"
-	"path"
-	"time"
-
 	"cloud-disk/core/internal/logic"
 	"cloud-disk/core/internal/svc"
 	"cloud-disk/core/internal/types"
+	"cloud-disk/core/models"
+	"crypto/md5"
+	"fmt"
 	"github.com/zeromicro/go-zero/rest/httpx"
+	"net/http"
+	"path"
 )
 
 func FileUploadHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
@@ -42,7 +40,7 @@ func FileUploadHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 		fileName := fileHeader.Filename
-		key := "cloud-disk" + "/" + time.Now().Format("2006-01-02") + "/" + fileName
+		key := helper.GetFileKey(fileName)
 		//往oss存储文件
 		upload, err := helper.UploadFromByte(key, b)
 		if err != nil {

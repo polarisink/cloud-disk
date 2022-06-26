@@ -77,7 +77,7 @@ func GetOssBucket() (*oss.Bucket, error) {
 
 // OssLocalFile oss上传本地文件
 func OssLocalFile(r *os.File) (string, error) {
-	key := "cloud-disk" + "/" + time.Now().Format("2006-01-02") + "/" + path.Base(r.Name())
+	key:=GetFileKey(path.Base(r.Name()))
 	bucket, err := GetOssBucket()
 	if err != nil {
 		return "", errors.New("get oss bucket error")
@@ -107,7 +107,7 @@ func UploadFromByte(objectKey string, b []byte) (string, error) {
 // UploadFile 上传文件,文件命名策略在本地
 func UploadFile(file multipart.File, fileHeader *multipart.FileHeader) (string, error) {
 	fileName := fileHeader.Filename
-	key := "cloud-disk" + "/" + time.Now().Format("2006-01-02") + "/" + fileName
+	key := GetFileKey(fileName)
 	b := make([]byte, fileHeader.Size)
 	_, err := file.Read(b)
 	if err != nil {
@@ -115,4 +115,8 @@ func UploadFile(file multipart.File, fileHeader *multipart.FileHeader) (string, 
 	}
 	//拼接地址
 	return UploadFromByte(key, b)
+}
+
+func GetFileKey(name string) string {
+	return "cloud-disk" + "/" + time.Now().Format("2006-01-02") + "/" + name
 }
