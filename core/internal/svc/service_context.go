@@ -25,7 +25,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		RDB:    models.InitRedis(c),
 		Auth:   middleware.NewAuthMiddleware().Handle,
 
-		//todo now i can't define it in ctx but in define.go ,like a static method in java
 		//OSS: models.InitOssBucket(c),
 	}
 }
