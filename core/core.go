@@ -7,8 +7,6 @@ import (
 	"flag"
 	"fmt"
 
-
-
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/rest"
 )

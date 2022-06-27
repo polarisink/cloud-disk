@@ -1,269 +1,274 @@
 service core-api {
-	// 用户登录
-	@handler UserLogin
-	post /user/login(LoginRequest) returns (LoginReply)
-	
-	// 用户详情
-	@handler UserDetail
-	get /user/detail(UserDetailRequest) returns (UserDetailReply)
-	
-	// 验证码发送
-	@handler MailCodeSendRegister
-	post /mail/code/send/register(MailCodeSendRequest) returns (MailCodeSendReply)
-	
-	// 用户注册
-	@handler UserRegister
-	post /user/register(UserRegisterRequest) returns (UserRegisterReply)
-	
-	// 获取资源详情
-	@handler ShareBasicDetail
-	get /share/basic/detail(ShareBasicDetailRequest) returns (ShareBasicDetailReply)
-	
+  // 用户登录
+  @handler UserLogin
+  post /user/login (LoginRequest) returns (LoginReply)
+
+  // 用户详情
+  @handler UserDetail
+  get /user/detail (UserDetailRequest) returns (UserDetailReply)
+
+  // 验证码发送
+  @handler MailCodeSendRegister
+  post /mail/code/send/register (MailCodeSendRequest) returns (MailCodeSendReply)
+
+  // 用户注册
+  @handler UserRegister
+  post /user/register (UserRegisterRequest) returns (UserRegisterReply)
+
+  // 获取资源详情
+  @handler ShareBasicDetail
+  get /share/basic/detail (ShareBasicDetailRequest) returns (ShareBasicDetailReply)
 }
 
-@server (
-	middleware: Auth
+@server(
+  middleware: Auth
 )
 service core-api {
-	// 文件上传
-	@handler FileUpload
-	post /file/upload(FileUploadRequest) returns (FileUploadReply)
-	
-	// 用户文件的关联存储
-	@handler UserRepositorySave
-	post /user/repository/save(UserRepositorySaveRequest) returns (UserRepositorySaveReply)
-	
-	// 用户文件列表
-	@handler UserFileList
-	get /user/file/list(UserFileListRequest) returns (UserFileListReply)
-	
-	// 用户文件名称修改
-	@handler UserFileNameUpdate
-	post /user/file/name/update(UserFileNameUpdateRequest) returns (UserFileNameUpdateReply)
-	
-	// 用户-文件夹创建
-	@handler UserFolderCreate
-	post /user/folder/create(UserFolderCreateRequest) returns (UserFolderCreateReply)
-	
-	// 用户-文件删除
-	@handler UserFileDelete
-	delete /user/file/delete(UserFileDeleteRequest) returns (UserFileDeleteReply)
-	
-	// 用户-文件移动
-	@handler UserFileMove
-	put /user/file/move(UserFileMoveRequest) returns (UserFileMoveReply)
-	
-	// 创建分享记录
-	@handler ShareBasicCreate
-	post /share/basic/create(ShareBasicCreateRequest) returns (ShareBasicCreateReply)
-	
-	// 资源保存
-	@handler ShareBasicSave
-	post /share/basic/save(ShareBasicSaveRequest) returns (ShareBasicSaveReply)
-	
-	// 刷新Authorization
-	@handler RefreshAuthorization
-	post /refresh/authorization(RefreshAuthorizationRequest) returns (RefreshAuthorizationReply)
-	
-	// 文件上传前基本信息处理
-	@handler FileUploadPrepare
-	post /file/upload/prepare(FileUploadPrepareRequest) returns (FileUploadPrepareReply)
-	
-	// 文件分片上传
-	@handler FileUploadChunk
-	post /file/upload/chunk(FileUploadChunkRequest) returns (FileUploadChunkReply)
-	
-	// 文件分片上传完成
-	@handler FileUploadChunkComplete
-	post /file/upload/chunk/complete(FileUploadChunkCompleteRequest) returns (FileUploadChunkCompleteReply)
-	
+  // 文件上传
+  @handler FileUpload
+  post /file/upload (FileUploadRequest) returns (FileUploadReply)
+
+  // 用户文件的关联存储
+  @handler UserRepositorySave
+  post /user/repository/save (UserRepositorySaveRequest) returns (UserRepositorySaveReply)
+
+  // 用户文件列表
+  @handler UserFileList
+  get /user/file/list (UserFileListRequest) returns (UserFileListReply)
+
+  // 用户文件名称修改
+  @handler UserFileNameUpdate
+  post /user/file/name/update (UserFileNameUpdateRequest) returns (UserFileNameUpdateReply)
+
+  // 用户-文件夹创建
+  @handler UserFolderCreate
+  post /user/folder/create (UserFolderCreateRequest) returns (UserFolderCreateReply)
+
+  // 用户-文件删除
+  @handler UserFileDelete
+  delete /user/file/delete (UserFileDeleteRequest) returns (UserFileDeleteReply)
+
+  // 用户-文件移动
+  @handler UserFileMove
+  put /user/file/move (UserFileMoveRequest) returns (UserFileMoveReply)
+
+  // 创建分享记录
+  @handler ShareBasicCreate
+  post /share/basic/create (ShareBasicCreateRequest) returns (ShareBasicCreateReply)
+
+  // 资源保存
+  @handler ShareBasicSave
+  post /share/basic/save (ShareBasicSaveRequest) returns (ShareBasicSaveReply)
+
+  // 刷新Authorization
+  @handler RefreshAuthorization
+  post /refresh/authorization (RefreshAuthorizationRequest) returns (RefreshAuthorizationReply)
+
+  // 文件上传前基本信息处理
+  @handler FileUploadPrepare
+  post /file/upload/prepare (FileUploadPrepareRequest) returns (FileUploadPrepareReply)
+
+  // 文件分片上传
+  @handler FileUploadChunk
+  post /file/upload/chunk (FileUploadChunkRequest) returns (FileUploadChunkReply)
+
+  // 文件分片上传完成
+  @handler FileUploadChunkComplete
+  post /file/upload/chunk/complete (FileUploadChunkCompleteRequest) returns (FileUploadChunkCompleteReply)
 }
 
 type FileUploadChunkCompleteRequest {
-	Md5        string      `json:"md5"`
-	Name       string      `json:"name"`
-	Ext        string      `json:"ext"`
-	Size       int64       `json:"size"`
-	Key        string      `json:"key"`
-	UploadId   string      `json:"upload_id"`
-	CosObjects []CosObject `json:"cos_objects"`
+  Md5 string `json:"md5"`
+  Name string `json:"name"`
+  Ext string `json:"ext"`
+  Size int64 `json:"size"`
+  Key string `json:"key"`
+  UploadId string `json:"upload_id"`
+  CosObjects []CosObject `json:"cos_objects"`
 }
 
 type CosObject {
-	PartNumber int    `json:"part_number"`
-	Etag       string `json:"etag"`
+  PartNumber int `json:"part_number"`
+  Etag string `json:"etag"`
 }
 
 type FileUploadChunkCompleteReply {
-	Identity string `json:"identity"` // 存储池identity
+  Identity string `json:"identity"` // 存储池identity
 }
 
 type FileUploadChunkRequest { // formdata
-	// key
-	// upload_id
-	// part_number
+                              // key
+                              // upload_id
+                              // part_number
 }
 
 type FileUploadChunkReply {
-	Etag string `json:"etag"` // MD5
+  Etag string `json:"etag"` // MD5
 }
 
 type FileUploadPrepareRequest {
-	Md5  string `json:"md5"`
-	Name string `json:"name"`
-	Ext  string `json:"ext"`
+  Md5 string `json:"md5"`
+  Name string `json:"name"`
+  Ext string `json:"ext"`
 }
 
 type FileUploadPrepareReply {
-	Identity string `json:"identity"`
-	UploadId string `json:"upload_id"`
-	Key      string `json:"key"`
+  Identity string `json:"identity"`
+  UploadId string `json:"upload_id"`
+  Key string `json:"key"`
 }
 
-type RefreshAuthorizationRequest {}
+type RefreshAuthorizationRequest{
+}
 
 type RefreshAuthorizationReply {
-	Token        string `json:"token"`
-	RefreshToken string `json:"refresh_token"`
+  Token string `json:"token"`
+  RefreshToken string `json:"refresh_token"`
 }
 
 type ShareBasicSaveRequest {
-	RepositoryIdentity string `json:"repository_identity"`
-	ParentId           int64  `json:"parent_id"`
+  RepositoryIdentity string `json:"repository_identity"`
+  ParentId int64 `json:"parent_id"`
 }
 
 type ShareBasicSaveReply {
-	Identity string `json:"identity"`
+  Identity string `json:"identity"`
 }
 
 type ShareBasicDetailRequest {
-	Identity string `json:"identity"`
+  Identity string `json:"identity"`
 }
 
 type ShareBasicDetailReply {
-	RepositoryIdentity string `json:"repository_identity"`
-	Name               string `json:"name"`
-	Ext                string `json:"ext"`
-	Size               int64  `json:"size"`
-	Path               string `json:"path"`
+  RepositoryIdentity string `json:"repository_identity"`
+  Name string `json:"name"`
+  Ext string `json:"ext"`
+  Size int64 `json:"size"`
+  Path string `json:"path"`
 }
 
 type ShareBasicCreateRequest {
-	UserRepositoryIdentity string `json:"user_repository_identity"`
-	ExpiredTime            int    `json:"expired_time"`
+  UserRepositoryIdentity string `json:"user_repository_identity"`
+  ExpiredTime int `json:"expired_time"`
 }
 
 type ShareBasicCreateReply {
-	Identity string `json:"identity"`
+  Identity string `json:"identity"`
 }
 
 type UserFileMoveRequest {
-	Idnetity       string `json:"identity"`
-	ParentIdnetity string `json:"parent_identity"`
+  Idnetity string `json:"identity"`
+  ParentIdnetity string `json:"parent_identity"`
 }
 
-type UserFileMoveReply {}
+type UserFileMoveReply{
+}
 
 type UserFileDeleteRequest {
-	Identity string `json:"identity"`
+  Identity string `json:"identity"`
 }
 
-type UserFileDeleteReply {}
+type UserFileDeleteReply{
+}
 
 type UserFolderCreateRequest {
-	ParentId int64  `json:"parent_id"`
-	Name     string `json:"name"`
+  ParentId int64 `json:"parent_id"`
+  Name string `json:"name"`
 }
 
 type UserFolderCreateReply {
-	Identity string `json:"identity"`
+  Identity string `json:"identity"`
 }
 
 type UserFileNameUpdateRequest {
-	Identity string `json:"identity"`
-	Name     string `json:"name"`
+  Identity string `json:"identity"`
+  Name string `json:"name"`
 }
 
-type UserFileNameUpdateReply {}
+type UserFileNameUpdateReply{
+}
 
 type UserFileListRequest {
-	Id   int64 `json:"id,optional"`
-	Page int   `json:"page,optional"`
-	Size int   `json:"size,optional"`
+  Id int64 `json:"id,optional"`
+  Page int `json:"page,optional"`
+  Size int `json:"size,optional"`
 }
 
 type UserFileListReply {
-	List  []*UserFile `json:"list"`
-	Count int64       `json:"count"`
+  List []*UserFile `json:"list"`
+  Count int64 `json:"count"`
 }
 
 type UserFile {
-	Id                 int64  `json:"id"`
-	Identity           string `json:"identity"`
-	RepositoryIdentity string `json:"repository_identity"`
-	Name               string `json:"name"`
-	Ext                string `json:"ext"`
-	Path               string `json:"path"`
-	Size               int64  `json:"size"`
+  Id int64 `json:"id"`
+  Identity string `json:"identity"`
+  RepositoryIdentity string `json:"repository_identity"`
+  Name string `json:"name"`
+  Ext string `json:"ext"`
+  Path string `json:"path"`
+  Size int64 `json:"size"`
 }
 
 type UserRepositorySaveRequest {
-	ParentId           int64  `json:"parentId"`
-	RepositoryIdentity string `json:"repositoryIdentity"`
-	Ext                string `json:"ext"`
-	Name               string `json:"name"`
+  ParentId int64 `json:"parentId"`
+  RepositoryIdentity string `json:"repositoryIdentity"`
+  Ext string `json:"ext"`
+  Name string `json:"name"`
 }
 
-type UserRepositorySaveReply {}
+type UserRepositorySaveReply{
+}
 
 type FileUploadRequest {
-	Hash string `json:"hash,optional"`
-	Name string `json:"name,optional"`
-	Ext  string `json:"ext,optional"`
-	Size int64  `json:"size,optional"`
-	Path string `json:"path,optional"`
+  Hash string `json:"hash,optional"`
+  Name string `json:"name,optional"`
+  Ext string `json:"ext,optional"`
+  Size int64 `json:"size,optional"`
+  Path string `json:"path,optional"`
 }
 
 type FileUploadReply {
-	Identity string `json:"identity"`
-	Ext      string `json:"ext"`
-	Name     string `json:"name"`
+  Identity string `json:"identity"`
+  Ext string `json:"ext"`
+  Name string `json:"name"`
 }
 
 type UserRegisterRequest {
-	// 用户名
-	Name string `json:"name"`
-	// 密码
-	Password string `json:"password"`
-	// 邮箱
-	Email string `json:"email"`
-	// 验证码
-	Code string `json:"code"`
+  // 用户名
+  Name string `json:"name"`
+  // 密码
+  Password string `json:"password"`
+  // 邮箱
+  Email string `json:"email"`
+  // 验证码
+  Code string `json:"code"`
 }
 
-type UserRegisterReply {}
+type UserRegisterReply{
+}
 
 type LoginRequest {
-	Name     string `json:"name"`
-	Password string `json:"password"`
+  Name string `json:"name"`
+  Password string `json:"password"`
 }
 
 type LoginReply {
-	Token        string `json:"token"`
-	RefreshToken string `json:"refresh_token"`
+  Token string `json:"token"`
+  RefreshToken string `json:"refresh_token"`
 }
 
 type UserDetailRequest {
-	Identity string `json:"identity"`
+  Identity string `json:"identity"`
 }
 
 type UserDetailReply {
-	Name  string `json:"name"`
-	Email string `json:"email"`
+  Name string `json:"name"`
+  Email string `json:"email"`
 }
 
 type MailCodeSendRequest {
-	Email string `json:"email"`
+  Email string `json:"email"`
 }
 
-type MailCodeSendReply {}
+type MailCodeSendReply{
+}

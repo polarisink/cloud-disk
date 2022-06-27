@@ -26,7 +26,7 @@ func NewUserRepositorySaveLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 	}
 }
 
-func (l *UserRepositorySaveLogic) UserRepositorySave(req *types.UserRepositorySaveRequest,userIdentity string) (resp *types.UserRepositorySaveReply, err error) {
+func (l *UserRepositorySaveLogic) UserRepositorySave(req *types.UserRepositorySaveRequest, userIdentity string) (resp *types.UserRepositorySaveReply, err error) {
 	ur := &models.UserRepository{
 		Identity:           helper.UUID(),
 		UserIdentity:       userIdentity,

@@ -109,4 +109,3 @@ func TestCheck(t *testing.T) {
 	fmt.Println(s2)
 	fmt.Println(s1 == s2)
 }
-

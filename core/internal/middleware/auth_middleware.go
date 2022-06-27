@@ -16,7 +16,7 @@ func NewAuthMiddleware() *AuthMiddleware {
 func (m *AuthMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// TODO generate middleware implement function, delete after code implementation
-		auth:=r.Header.Get(define.Authorization)
+		auth := r.Header.Get(define.Authorization)
 		if auth == "" {
 			w.WriteHeader(http.StatusUnauthorized)
 			w.Write([]byte("Unauthorized"))

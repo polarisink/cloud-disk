@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestUuid(t *testing.T)  {
-	v4:=uuid.NewV4()
+func TestUuid(t *testing.T) {
+	v4 := uuid.NewV4()
 	fmt.Println(v4)
 }

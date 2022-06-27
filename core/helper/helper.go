@@ -79,7 +79,7 @@ func GetOssBucket() (*oss.Bucket, error) {
 
 // OssLocalFile oss上传本地文件
 func OssLocalFile(r *os.File) (string, error) {
-	key:=GetFileKey(path.Base(r.Name()))
+	key := GetFileKey(path.Base(r.Name()))
 	bucket, err := GetOssBucket()
 	if err != nil {
 		return "", errors.New("get oss bucket error")
@@ -155,7 +155,6 @@ func GenerateToken(id int, identity, name string, second int) (string, error) {
 	}
 	return tokenString, nil
 }
-
 
 func Md5(s string) string {
 	return fmt.Sprintf("%x", md5.Sum([]byte(s)))

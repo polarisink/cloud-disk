@@ -8,13 +8,13 @@ type Config struct {
 		DataSource string
 	}
 	Redis struct {
-		Addr string
+		Addr     string
 		Password string
 	}
-	Oss struct{
-		Endpoint string
-		AccessKeyId string
+	Oss struct {
+		Endpoint        string
+		AccessKeyId     string
 		AccessKeySecret string
-		Bucket string
+		Bucket          string
 	}
 }

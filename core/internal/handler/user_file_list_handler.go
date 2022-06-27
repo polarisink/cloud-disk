@@ -18,7 +18,7 @@ func UserFileListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := logic.NewUserFileListLogic(r.Context(), svcCtx)
-		resp, err := l.UserFileList(&req,r.Header.Get("UserIdentity"))
+		resp, err := l.UserFileList(&req, r.Header.Get("UserIdentity"))
 		if err != nil {
 			httpx.Error(w, err)
 		} else {

@@ -24,7 +24,7 @@ func NewUserFileDeleteLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Us
 	}
 }
 
-func (l *UserFileDeleteLogic) UserFileDelete(req *types.UserFileDeleteRequest,userIdentity string) (resp *types.UserFileDeleteReply, err error) {
+func (l *UserFileDeleteLogic) UserFileDelete(req *types.UserFileDeleteRequest, userIdentity string) (resp *types.UserFileDeleteReply, err error) {
 	_, err = l.svcCtx.Engine.Where("user_identity = ? AND identity = ?", userIdentity, req.Identity).Delete(new(models.UserRepository))
 	return
 }

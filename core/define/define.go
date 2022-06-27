@@ -26,7 +26,6 @@ var CodeLength = 6
 // CodeExpire 验证码过期时间
 var CodeExpire = 300
 
-
 // Bucket todo xxx
 var Bucket = "mvpwfb"
 var Endpoint = "oss-cn-hangzhou.aliyuncs.com"

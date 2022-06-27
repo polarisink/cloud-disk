@@ -26,7 +26,7 @@ func NewShareBasicSaveLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Sh
 	}
 }
 
-func (l *ShareBasicSaveLogic) ShareBasicSave(req *types.ShareBasicSaveRequest,userIdentity string) (resp *types.ShareBasicSaveReply, err error) {
+func (l *ShareBasicSaveLogic) ShareBasicSave(req *types.ShareBasicSaveRequest, userIdentity string) (resp *types.ShareBasicSaveReply, err error) {
 	// 获取资源详情
 	rp := new(models.RepositoryPool)
 	has, err := l.svcCtx.Engine.Where("identity = ?", req.RepositoryIdentity).Get(rp)

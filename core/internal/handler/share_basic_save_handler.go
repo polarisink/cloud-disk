@@ -18,7 +18,7 @@ func ShareBasicSaveHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := logic.NewShareBasicSaveLogic(r.Context(), svcCtx)
-		resp, err := l.ShareBasicSave(&req,r.Header.Get("UserIdentity"))
+		resp, err := l.ShareBasicSave(&req, r.Header.Get("UserIdentity"))
 		if err != nil {
 			httpx.Error(w, err)
 		} else {

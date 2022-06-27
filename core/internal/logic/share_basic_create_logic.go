@@ -26,7 +26,7 @@ func NewShareBasicCreateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 	}
 }
 
-func (l *ShareBasicCreateLogic) ShareBasicCreate(req *types.ShareBasicCreateRequest,userIdentity string) (resp *types.ShareBasicCreateReply, err error) {
+func (l *ShareBasicCreateLogic) ShareBasicCreate(req *types.ShareBasicCreateRequest, userIdentity string) (resp *types.ShareBasicCreateReply, err error) {
 	uuid := helper.UUID()
 	ur := new(models.UserRepository)
 	has, err := l.svcCtx.Engine.Where("identity = ?", req.UserRepositoryIdentity).Get(ur)
