@@ -1,6 +1,7 @@
 package logic
 
 import (
+	"cloud-disk/core/models"
 	"context"
 
 	"cloud-disk/core/internal/svc"
@@ -23,8 +24,7 @@ func NewUserFileDeleteLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Us
 	}
 }
 
-func (l *UserFileDeleteLogic) UserFileDelete(req *types.UserFileDeleteRequest) (resp *types.UserFileDeleteReply, err error) {
-	// todo: add your logic here and delete this line
-
+func (l *UserFileDeleteLogic) UserFileDelete(req *types.UserFileDeleteRequest,userIdentity string) (resp *types.UserFileDeleteReply, err error) {
+	_, err = l.svcCtx.Engine.Where("user_identity = ? AND identity = ?", userIdentity, req.Identity).Delete(new(models.UserRepository))
 	return
 }

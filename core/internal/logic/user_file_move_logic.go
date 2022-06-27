@@ -1,7 +1,9 @@
 package logic
 
 import (
+	"cloud-disk/core/models"
 	"context"
+	"errors"
 
 	"cloud-disk/core/internal/svc"
 	"cloud-disk/core/internal/types"
@@ -23,8 +25,19 @@ func NewUserFileMoveLogic(ctx context.Context, svcCtx *svc.ServiceContext) *User
 	}
 }
 
-func (l *UserFileMoveLogic) UserFileMove(req *types.UserFileMoveRequest) (resp *types.UserFileMoveReply, err error) {
-	// todo: add your logic here and delete this line
-
+func (l *UserFileMoveLogic) UserFileMove(req *types.UserFileMoveRequest,userIdentity string) (resp *types.UserFileMoveReply, err error) {
+	//parentID
+	parentData := new(models.UserRepository)
+	has, err := l.svcCtx.Engine.Where("identity = ? AND user_identity = ?", req.ParentIdnetity, userIdentity).Get(parentData)
+	if err != nil {
+		return nil, err
+	}
+	if !has {
+		return nil, errors.New("文件夹不存在")
+	}
+	// 更新记录的 ParentID
+	_, err = l.svcCtx.Engine.Where("identity = ?", req.Idnetity).Update(models.UserRepository{
+		ParentId: int64(parentData.Id),
+	})
 	return
 }

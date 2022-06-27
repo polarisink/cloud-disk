@@ -1,7 +1,10 @@
 package logic
 
 import (
+	"cloud-disk/core/helper"
+	"cloud-disk/core/models"
 	"context"
+	"errors"
 
 	"cloud-disk/core/internal/svc"
 	"cloud-disk/core/internal/types"
@@ -23,8 +26,30 @@ func NewShareBasicCreateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 	}
 }
 
-func (l *ShareBasicCreateLogic) ShareBasicCreate(req *types.ShareBasicCreateRequest) (resp *types.ShareBasicCreateReply, err error) {
-	// todo: add your logic here and delete this line
+func (l *ShareBasicCreateLogic) ShareBasicCreate(req *types.ShareBasicCreateRequest,userIdentity string) (resp *types.ShareBasicCreateReply, err error) {
+	uuid := helper.UUID()
+	ur := new(models.UserRepository)
+	has, err := l.svcCtx.Engine.Where("identity = ?", req.UserRepositoryIdentity).Get(ur)
+	if err != nil {
+		return nil, err
+	}
+	if !has {
+		return nil, errors.New("user repository not found")
+	}
 
+	data := &models.ShareBasic{
+		Identity:               uuid,
+		UserIdentity:           userIdentity,
+		UserRepositoryIdentity: req.UserRepositoryIdentity,
+		RepositoryIdentity:     ur.RepositoryIdentity,
+		ExpiredTime:            req.ExpiredTime,
+	}
+	_, err = l.svcCtx.Engine.Insert(data)
+	if err != nil {
+		return
+	}
+	resp = &types.ShareBasicCreateReply{
+		Identity: uuid,
+	}
 	return
 }

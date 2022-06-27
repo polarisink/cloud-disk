@@ -40,8 +40,5 @@ func (l *MailCodeSendRegisterLogic) MailCodeSendRegister(req *types.MailCodeSend
 	code := helper.RandCode()
 	l.svcCtx.RDB.Set(l.ctx, req.Email, code, time.Second*time.Duration(define.CodeExpire))
 	err = helper.MailCodeSend(req.Email, code)
-	/*if err != nil {
-		return nil, err
-	}*/
 	return
 }

@@ -18,7 +18,7 @@ func UserFileNameUpdateHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := logic.NewUserFileNameUpdateLogic(r.Context(), svcCtx)
-		resp, err := l.UserFileNameUpdate(&req)
+		resp, err := l.UserFileNameUpdate(&req,r.Header.Get("UserIdentity"))
 		if err != nil {
 			httpx.Error(w, err)
 		} else {
