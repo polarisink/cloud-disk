@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"cloud-disk/core/helper"
 	"net/http"
 
 	"cloud-disk/core/internal/logic"
@@ -18,7 +19,7 @@ func UserFolderCreateHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := logic.NewUserFolderCreateLogic(r.Context(), svcCtx)
-		resp, err := l.UserFolderCreate(&req, r.Header.Get("UserIdentity"))
+		resp, err := l.UserFolderCreate(&req, helper.GetToken(r))
 		if err != nil {
 			httpx.Error(w, err)
 		} else {

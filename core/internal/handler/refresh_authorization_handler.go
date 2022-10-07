@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"cloud-disk/core/helper"
 	"net/http"
 
 	"cloud-disk/core/internal/logic"
@@ -18,7 +19,7 @@ func RefreshAuthorizationHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := logic.NewRefreshAuthorizationLogic(r.Context(), svcCtx)
-		resp, err := l.RefreshAuthorization(&req)
+		resp, err := l.RefreshAuthorization(&req, helper.GetToken(r))
 		if err != nil {
 			httpx.Error(w, err)
 		} else {

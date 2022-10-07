@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"cloud-disk/core/helper"
 	"net/http"
 
 	"cloud-disk/core/internal/logic"
@@ -18,7 +19,7 @@ func UserFileMoveHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := logic.NewUserFileMoveLogic(r.Context(), svcCtx)
-		resp, err := l.UserFileMove(&req, r.Header.Get("UserIdentity"))
+		resp, err := l.UserFileMove(&req, helper.GetToken(r))
 		if err != nil {
 			httpx.Error(w, err)
 		} else {

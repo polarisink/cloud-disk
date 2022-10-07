@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"cloud-disk/core/helper"
 	"net/http"
 
 	"cloud-disk/core/internal/logic"
@@ -18,7 +19,7 @@ func UserRepositorySaveHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := logic.NewUserRepositorySaveLogic(r.Context(), svcCtx)
-		resp, err := l.UserRepositorySave(&req, r.Header.Get("UserIdentity"))
+		resp, err := l.UserRepositorySave(&req, helper.GetToken(r))
 		if err != nil {
 			httpx.Error(w, err)
 		} else {

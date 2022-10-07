@@ -13,6 +13,7 @@ import (
 	"github.com/satori/go.uuid"
 	"math/rand"
 	"mime/multipart"
+	"net/http"
 	"net/smtp"
 	"os"
 	"path"
@@ -158,4 +159,9 @@ func GenerateToken(id int, identity, name string, second int) (string, error) {
 
 func Md5(s string) string {
 	return fmt.Sprintf("%x", md5.Sum([]byte(s)))
+}
+
+// GetToken 获取request中的token
+func GetToken(r *http.Request) string {
+	return r.Header.Get(define.Authorization)
 }

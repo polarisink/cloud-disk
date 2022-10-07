@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"cloud-disk/core/helper"
 	"net/http"
 
 	"cloud-disk/core/internal/logic"
@@ -18,7 +19,7 @@ func ShareBasicSaveHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := logic.NewShareBasicSaveLogic(r.Context(), svcCtx)
-		resp, err := l.ShareBasicSave(&req, r.Header.Get("UserIdentity"))
+		resp, err := l.ShareBasicSave(&req, helper.GetToken(r))
 		if err != nil {
 			httpx.Error(w, err)
 		} else {
