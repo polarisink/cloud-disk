@@ -7,7 +7,7 @@ Redis:
   Password: mvpredis
 
 Mysql:
-  DataSource: root:vgy87dgy16rhd61fAGHbcgA@tcp(1.13.169.163:3306)/cloud_disk?charset=utf8mb4&parseTime=True&loc=Local
+  DataSource: root:vgy87dgy16rhd61fAGHbcgA@tcp(${ip}:3306)/cloud_disk?charset=utf8mb4&parseTime=True&loc=Local
 
 Oss:
   Endpoint: oss-cn-hangzhou.aliyuncs.com
