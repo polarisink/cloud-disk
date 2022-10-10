@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"github.com/zeromicro/zero-contrib/logx/zapx"
 
 	"cloud-disk/core/internal/svc"
 	"cloud-disk/core/internal/types"
@@ -25,6 +26,8 @@ func NewFileUploadChunkCompleteLogic(ctx context.Context, svcCtx *svc.ServiceCon
 
 func (l *FileUploadChunkCompleteLogic) FileUploadChunkComplete(req *types.FileUploadChunkCompleteRequest) (resp *types.FileUploadChunkCompleteReply, err error) {
 	// todo: add your logic here and delete this line
-
+	writer, err := zapx.NewZapWriter()
+	logx.Must(err)
+	logx.SetWriter(writer)
 	return
 }
